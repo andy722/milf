@@ -1,6 +1,12 @@
+
+/* Search page */
+
 li.milf_ignored {
     display: none !important;
 }
+
+
+/* Buttons common */
 
 #milf_mark_btn {
     height: 25px;
@@ -8,5 +14,73 @@ li.milf_ignored {
     vertical-align: middle;
     line-height: 5px;
     width: 140px;
+}
+
+
+/* Personal info page */
+
+#milf_mark_btn.personal-page {
     margin-left: 15px;
+}
+
+
+/* Messenger pop-up */
+
+#milf_mark_btn.message-page {
+    margin-left: 0;
+}
+
+
+/* Settings page */
+
+#settings {
+    font-size: 13px;
+    font-family: Arial,sans-serif;
+}
+
+#excluded-list {
+    list-style-type: none;
+}
+
+#excluded-list li.excluded-entry {
+    display: block;
+    width: 33%;
+    float: left;
+    padding-bottom: 15px;
+}
+
+#excluded-list img {
+    width: 150px;
+    height: 150px;
+}
+
+#excluded-list li.excluded-entry div.left {
+    float: left;
+    padding-right: 15px;
+}
+
+#excluded-list li.excluded-entry div.right {
+    float: left;
+}
+
+#excluded-list li.excluded-entry div.right a {
+    display: block;
+    padding-bottom: 5px;
+}
+
+.settings-button {
+    position: relative;
+    display: inline-block;
+    padding: 5px 15px;
+    border: 1px solid #fff!important;
+    text-decoration: none;
+    color: #fff!important;
+    cursor: pointer;
+    vertical-align: top;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.3);
+    text-shadow: 0 -1px 0 rgba(0,0,0,.3);
+    background-image: linear-gradient(to bottom,#5e95d1 0,#3974ae 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5e95d1', endColorstr='#ff3974ae', GradientType=0);
 }

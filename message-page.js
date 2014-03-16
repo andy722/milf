@@ -2,55 +2,51 @@
 
   var page = {
 
-    registerPushStateEvent: function () {
-      (function (history) {
-        var pushState = history.pushState;
-        history.pushState = function(state) {
-          if (typeof history.onpushstate == "function") {
-            history.onpushstate({state: state});
-          }
-          return pushState.apply(history, arguments);
-        }
-      })(window.history);
-    },
-
-    registerPushStateEventHandler: function (callback) {
-      history.onpushstate = function(e) { callback(e) };
-    },
-
     processPage: function () {
-      var url = $('a.username').attr('href');
+      var $username = $('a.username');
+      if (!$username.length) {
+        return;
+      }
+
+      var url = $username.attr('href');
       var pageId = app.url2Id(url);
 
-      app.checkIgnored(
-          pageId,
-          function () {
-            page.createButton(pageId, chrome.i18n.getMessage("btnMarkNotIgnored"));
-          },
-          function () {
-            page.createButton(pageId, chrome.i18n.getMessage("btnMarkIgnored"));
-          }
-      );
+      var $btn = $('#milf_mark_btn');
+      if ($btn.length) {
+        // Update the state if necessary.
+        app.buttons.updateText(pageId, $btn);
 
-      this.registerPushStateEventHandler(function (e) { this.processPage(); });
+      } else {
+        // No button present, just add it.
+        app.checkIgnored(
+            pageId,
+            function () {
+              page.createButton(pageId, app.msg("btnMarkNotIgnored"));
+            },
+            function () {
+              page.createButton(pageId, app.msg("btnMarkIgnored"));
+            }
+        );
+      }
+
     },
 
     createButton: function (pageId, text) {
-      var $btn = $('<input type="button" id="milf_mark_btn" class="button" value="' + text + '"/>');
+      if ($('#milf_mark_btn').length) return;
+      var $btn = $(
+          '<input type="button" ' +
+              'id="milf_mark_btn" ' +
+              'class="button message-page" ' +
+              'value="' + text + '"/>');
       $btn.click(function () {
         app.buttons.handleClick(pageId, $btn);
         return false;
       });
       $('div.mb-userinfo').append($btn);
     }
-
   };
-
-  page.registerPushStateEvent();
-  page.registerPushStateEventHandler(function (e) {
-    chrome.extension.sendMessage("message-page");
-  });
 
   page.processPage();
 
+  $('body').bind('DOMSubtreeModified', page.processPage);
 })();

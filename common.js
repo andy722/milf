@@ -6,10 +6,10 @@ var app = {
       app.checkIgnored(
           pageId,
           function () {
-            $btn.attr('value', chrome.i18n.getMessage("btnMarkNotIgnored"));
+            $btn.attr('value', app.msg("btnMarkNotIgnored"));
           },
           function () {
-            $btn.attr('value', chrome.i18n.getMessage("btnMarkIgnored"));
+            $btn.attr('value', app.msg("btnMarkIgnored"));
           }
       );
     },
@@ -21,8 +21,8 @@ var app = {
 
       app.checkIgnored(
           pageId,
-          function () { app.markNotIgnored(pageId, onUpdated) },
-          function () { app.markIgnored(pageId, onUpdated) }
+          function () { app._markNotIgnored(pageId, onUpdated) },
+          function () { app._markIgnored(pageId, onUpdated) }
       );
     }
 
@@ -39,36 +39,88 @@ var app = {
     var that = this;
     this.log('Check ignored: ' + id);
 
-    chrome.storage.local.get(id, function (result) {
-      if (result[id] == true) {
+    this._getIgnoredList(function (list) {
+      if (list.indexOf(id) !== -1) {
         that.log('Check ignored: ' + id + ', true');
-        if (ifIgnored) { ifIgnored(); }
+        ifIgnored();
 
       } else {
         that.log('Check ignored: ' + id + ', false');
-        if (ifNot) { ifNot(); }
+        ifNot();
       }
     });
   },
 
-  markIgnored: function (id, callback) {
+  listIgnored: function (callback) {
+    return this._getIgnoredList(callback);
+  },
+
+  _markIgnored: function (id, callback) {
     this.log('Ignoring: ' + id);
-    chrome.storage.local.set(this._makeParam(id, true), callback);
+
+    this._getIgnoredList(function (list) {
+      list.push(id);
+      app._setIgnoredList(list, callback);
+    });
   },
 
-  markNotIgnored: function (id, callback) {
+  _markNotIgnored: function (id, callback) {
     this.log('Reverting: ' + id);
-    chrome.storage.local.set(this._makeParam(id, false), callback);
+
+    this._getIgnoredList(function (list) {
+      app.util.removeItem(list, id);
+      app._setIgnoredList(list, callback);
+    });
   },
 
-  _makeParam: function (id, value) {
-    var param = {};
-    param[id] = value;
-    return param;
+  _getIgnoredList: function (callback) {
+    chrome.storage.local.get('ignored', function (result) {
+      if (result && result.ignored) {
+        callback(result.ignored);
+      } else {
+        callback([]);
+      }
+    });
+  },
+
+  _setIgnoredList: function (list, callback) {
+    chrome.storage.local.set({ignored: list}, callback);
   },
 
   log: function (stuff) {
     console.log('MILF: ' + stuff);
+  },
+
+  msg: function (key) {
+    return chrome.i18n.getMessage(key);
+  },
+
+  util: {
+
+    removeItem: function (array, item) {
+      for(var i in array) {
+        if(array[i] == item) {
+          array.splice(i, 1);
+          break;
+        }
+      }
+    }
+  },
+
+  site: {
+    loadInfoElem: function (id, callback) {
+      var $tempPage = $('<div/>');
+      $tempPage.load(
+          app.site.id2url(id) + " .MainBlockRight",
+          function () {
+            callback($tempPage);
+          }
+      );
+    },
+
+    id2url: function (id) {
+      return "http://www.mamba.ru/" + id;
+    }
   }
 
 };
