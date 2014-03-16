@@ -1,0 +1,17 @@
+{
+  "extDescription": {
+    "message": "Mamba Informative List Filter is an extension for a popular 'mamba.ru' dating site, allowing to remove marked people from search results"
+  },
+
+  "extShortName": {
+    "message": "Mamba Informative List Filter"
+  },
+
+  "btnMarkNotIgnored": {
+    "message": "Вернуть в поиск"
+  },
+
+  "btnMarkIgnored": {
+    "message": "Скрыть из поиска"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "manifest_version": 2,
+  "name": "MILF",
+  "version": "0.1",
+
+  "description":  "__MSG_extDescription__",
+  "short_name":   "__MSG_extShortName__",
+
+  "default_locale": "ru",
+
+  "icons": {
+    "16":   "icons/16x16.png",
+    "48":   "icons/48x48.png",
+    "128":  "icons/128x128.png"
+  },
+
+  "permissions": [
+    "tabs",
+    "storage",
+    "http://www.mamba.ru/*"
+  ],
+
+  "background":{
+    "scripts":  [ "background.js" ]
+  },
+
+  "content_scripts": [
+    {
+      "matches":  [ "http://www.mamba.ru/*" ],
+      "js":       [ "jquery.js", "common.js", "personal-page.js" ],
+      "css":      [ "style.css" ]
+    },
+    {
+      "matches":  [ "http://www.mamba.ru/search.phtml*" ],
+      "js":       [ "jquery.js", "common.js", "search-page.js" ],
+      "css":      [ "style.css" ]
+    },
+    {
+      "matches":  [ "http://www.mamba.ru/my/message.phtml*" ],
+      "js":       [ "jquery.js", "common.js", "message-page.js" ],
+      "css":      [ "style.css" ]
+    }
+  ]
+}
