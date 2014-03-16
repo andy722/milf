@@ -84,3 +84,17 @@ li.milf_ignored {
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5e95d1', endColorstr='#ff3974ae', GradientType=0);
 }
+
+.button-block {
+}
+
+.button-unblock {
+    background-image: linear-gradient(to bottom, #ffffff 0, #e2e2e2 100%) !important;
+    color: #263352 !important;
+}
+
+a:active, a:focus,input, input:active, input:focus{     outline: 0;     outline-style:none;     outline-width:0; }
+a:active, a:focus,button::-moz-focus-inner, input[type="reset"]::-moz-focus-inner, input[type="button"]::-moz-focus-inner, input[type="submit"]::-moz-focus-inner, input[type="file"] > input[type="button"]::-moz-focus-inner
+{
+    border: none;
+}

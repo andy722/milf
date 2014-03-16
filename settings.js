@@ -33,11 +33,11 @@
       app.checkIgnored(
           id,
           function () {
-            var $btn = page.createButton(id, app.msg("btnMarkNotIgnored"));
+            var $btn = page.createButton(id, true);
             $right.append($btn);
           },
           function () {
-            var $btn = page.createButton(id, app.msg("btnMarkIgnored"));
+            var $btn = page.createButton(id, false);
             $right.append($btn);
           }
       );
@@ -51,11 +51,12 @@
 
     },
 
-    createButton: function (id, text) {
+    createButton: function (id, isBlocked) {
       var $btn = $('<input type="button" ' +
           'id="milf_mark_btn" ' +
-          'class="settings-button settings-page" ' +
-          'value="' + text + '"/>');
+          'class="settings-button settings-page"/>');
+
+      app.buttons.setStyle($btn, isBlocked);
       $btn.click(function () {
         app.buttons.handleClick(id, $btn);
         return false;

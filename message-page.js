@@ -21,27 +21,27 @@
         app.checkIgnored(
             pageId,
             function () {
-              page.createButton(pageId, app.msg("btnMarkNotIgnored"));
+              page.createButton(pageId, true);
             },
             function () {
-              page.createButton(pageId, app.msg("btnMarkIgnored"));
+              page.createButton(pageId, false);
             }
         );
       }
 
     },
 
-    createButton: function (pageId, text) {
+    createButton: function (pageId, isBlocked) {
       if ($('#milf_mark_btn').length) return;
       var $btn = $(
           '<input type="button" ' +
               'id="milf_mark_btn" ' +
-              'class="button message-page" ' +
-              'value="' + text + '"/>');
+              'class="button message-page"/>');
       $btn.click(function () {
         app.buttons.handleClick(pageId, $btn);
         return false;
       });
+      app.buttons.setStyle($btn, isBlocked);
       $('div.mb-userinfo').append($btn);
     }
   };

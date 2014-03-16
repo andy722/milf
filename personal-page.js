@@ -2,15 +2,15 @@
 
   var page = {
 
-    createButton: function (pageId, text) {
+    createButton: function (pageId, isBlocked) {
       var $btn = $('<input type="button" ' +
           'id="milf_mark_btn" ' +
-          'class="button personal-page" ' +
-          'value="' + text + '"/>');
+          'class="button personal-page"/>');
       $btn.click(function () {
         app.buttons.handleClick(pageId, $btn);
         return false;
       });
+      app.buttons.setStyle($btn, isBlocked);
       $('.infoName').append($btn);
     },
 
@@ -26,10 +26,10 @@
     app.checkIgnored(
         pageId,
         function () {
-          page.createButton(pageId, app.msg("btnMarkNotIgnored"));
+          page.createButton(pageId, true);
         },
         function () {
-          page.createButton(pageId, app.msg("btnMarkIgnored"));
+          page.createButton(pageId, false);
         }
     );
   }

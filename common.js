@@ -2,14 +2,30 @@ var app = {
 
   buttons: {
 
+    setStyle: function($btn, isBlocked) {
+      $btn.removeClass('button-block button-unblock');
+
+      if (isBlocked) {
+        $btn.addClass('button-unblock');
+        $btn.attr('style', 'color: #263352 !important; text-shadow: none');
+        $btn.attr('value', app.msg("btnMarkNotIgnored"));
+
+      } else {
+        $btn.addClass('button-block');
+        $btn.attr('style', 'color: #fff');
+        $btn.attr('value', app.msg("btnMarkIgnored"));
+      }
+    },
+
     updateText: function (pageId, $btn) {
+
       app.checkIgnored(
           pageId,
           function () {
-            $btn.attr('value', app.msg("btnMarkNotIgnored"));
+            app.buttons.setStyle($btn, true);
           },
           function () {
-            $btn.attr('value', app.msg("btnMarkIgnored"));
+            app.buttons.setStyle($btn, false);
           }
       );
     },
